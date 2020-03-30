@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+		var Checked = React.createClass({
+			getInitialState: function() {
+				//Whenver you want to customize the component you can use the prop and state feature.the only difference is that prop is static and is same for the life cycle of the code and state is dynamic.
+				//we'll ever use this.state = X in the lifetime of our component. Beyond initializing the state we must call this.setState() to modify the state.
+				return{checked:true}
+			},
+
+			handleChecked: function() {
+				this.setState({checked: !this.state.checked})
+			},
+
+			render : function(){
+				var msg;
+				if (this.state.checked) {
+					msg = "checked"
+				}else {
+					msg = "unchecked"
+				}
+				return(<div>
+					<input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checked} />
+					<h3> this box is {msg}</h3>
+				</div>
+				);
+			}
+		});
+
+		ReactDOM.render(<Checked />,document.getElementById('container'));
+
+	</script>
+</body>
+</html>

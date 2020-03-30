@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+
+	var Comment = React.createClass({
+		//there are basically two different type of mode. first one is the default mode and second one is the editing mode. in editing mode the content changes
+		getInitialState: function(){
+			return {editing:false}
+		},
+		edit: function(){
+			this.setState({editing:true})
+		},
+		remove: function(){
+			return(alert('removing the value'))
+		},
+		save: function(){
+			this.setState({editing:false})
+		},
+		renderNormal: function() {
+			return (<div className="commentContainer">
+					<div className="commentText">{this.props.children}</div>
+					<button className="button-primary" onClick={this.edit}>edit</button>
+					<button className="button-danger" onClick={this.remove}>remove</button>
+				</div>
+			);
+		},
+		renderEdit: function() {
+			return (<div className="commentContainer">
+					<textarea defaultValue={this.props.children}></textarea>
+					<button className="button-success" onClick={this.save}>save</button>
+				</div>
+			);
+		},
+		render: function() {
+			if (this.state.editing) {
+				return this.renderEdit()
+			}else {
+				return this.renderNormal()
+			}
+		}
+	});
+	ReactDOM.render(<div className="board">
+		<Comment>hey my name is praveen</Comment>
+		<Comment>chaudhary</Comment>
+		<Comment>abhishek</Comment>
+	</div>,document.getElementById('container'));
+	</script>
+</body>
+</html>

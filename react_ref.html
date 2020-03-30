@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+
+	var Comment = React.createClass({
+		//whenever are more objects of same class , then all of them have unique id and and we cant access all of them. so we use the ref.
+		getInitialState: function(){
+			return {editing:false}
+		},
+		edit: function(){
+			this.setState({editing:true})
+		},
+		remove: function(){
+			return(alert('removing the value'))
+		},
+		save: function(){
+			var val= this.refs.newText.value;
+			console.log('new comment is'+val);
+			this.setState({editing:false});
+		},
+		renderNormal: function() {
+			return (<div className="commentContainer">
+					<div className="commentText">{this.props.children}</div>
+					<button className="button-primary" onClick={this.edit}>edit</button>
+					<button className="button-danger" onClick={this.remove}>remove</button>
+				</div>
+			);
+		},
+		renderEdit: function() {
+			return (<div className="commentContainer">
+					<textarea ref="newText" defaultValue={this.props.children}></textarea>
+					<button className="button-success" onClick={this.save}>save</button>
+				</div>
+			);
+		},
+		render: function() {
+			if (this.state.editing) {
+				return this.renderEdit()
+			}else {
+				return this.renderNormal()
+			}
+		}
+	});
+	var Board = React.createClass({
+		//
+		getInitialState: function(){
+			return {
+				comments:[
+				"I lost my mind",
+				"we are fool",
+				"we are mad"
+				]
+			}
+		},
+		render: function(){
+			return(
+				<div className="board">
+					{
+						this.state.comments.map(function(text,i){
+							//a key is something which uniquely identifies a child. it can be done by id.
+							return (<Comment key={i}>{text}</Comment>);
+						})
+					}
+				</div>
+			);
+		}
+	});
+	ReactDOM.render(<Board />,document.getElementById('container'));
+	</script>
+</body>
+</html>

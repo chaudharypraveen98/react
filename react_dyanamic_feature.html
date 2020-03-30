@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react_dynamic</title>
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="first"></div>
+	<script type="text/babel">
+		var Expert = React.createClass({
+			//never use small alphabet for variable declaration as capital letters are the jsx convention
+			//react function declaration has changed over time
+			//In this code we have created a class with a object with two attributes called properties
+			render: function(){
+				return(
+					<div>
+						<h2>{this.props.title}</h2>
+						<h3>{this.props.genre}</h3>
+					</div>
+				);
+			}
+		});
+		ReactDOM.render(<Expert title="abhishek" genre="sehk" />,document.getElementById('first'));
+	</script>
+
+</body>
+</html>

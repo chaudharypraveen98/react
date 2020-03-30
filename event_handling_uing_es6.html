@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+		class Comment extends React.Component{
+			//the function declaration in function of es6 classes are removed and comma are removed after the every function
+			edit (){
+				return(alert('editing the value'));
+			}
+			remove (){
+				return(alert('removing the value'));
+			}
+			render () {
+				return (<div className="commentContainer">
+						<div className="commentText">{this.props.children}</div>
+						<button className="button-primary" onClick={this.edit}>edit</button>
+						<button className="button-danger" onClick={this.remove}>remove</button>
+					</div>
+				);
+			}
+		}
+		ReactDOM.render(<div className="board">
+		<Comment>hey my name is praveen</Comment>
+		<Comment>chaudhary</Comment>
+		<Comment>abhishek</Comment>
+	</div>,document.getElementById('container'));
+	</script>
+</body>
+</html>

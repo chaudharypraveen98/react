@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+	
+	var Comment = React.createClass({
+		//You have to use opening and closing tags if you want to put content in between them.  If the tag only has attributes, but no hard-coded content, then you can use a self-closing tag.
+		edit: function(){
+			return(alert('editing the value'));
+		},
+		remove: function(){
+			return(alert('removing the value'));
+		},
+		render: function() {
+			return (<div className="commentContainer">
+					<div className="commentText">{this.props.children}</div>
+					<button className="button-primary" onClick={this.edit}>edit</button>
+					<button className="button-danger" onClick={this.remove}>remove</button>
+				</div>
+			);
+		}
+	});
+	ReactDOM.render(<div className="board">
+		<Comment>hey my name is praveen</Comment>
+		<Comment>chaudhary</Comment>
+		<Comment>abhishek</Comment>
+	</div>,document.getElementById('container'));
+	</script>
+</body>
+</html>

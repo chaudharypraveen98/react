@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+
+		class Checkbox extends React.Component{
+			constructor(props,context){
+				super(props, context);
+
+				this.state={
+					checked:true
+				};
+					
+				this.handleChecked=this.handleChecked.bind(this);
+			}
+
+			handleChecked(){
+				this.setState({checked:!this.state.checked});
+			}
+
+			render(){
+				var msg;
+				if (this.state.checked) {
+					msg="checked"
+				}else {
+					msg="unchecked"
+				}
+				return(<div>
+					<input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checked} />
+					<h3>the box is {msg}</h3>
+				</div>);
+			}
+		}
+
+		ReactDOM.render(<Checkbox/>,document.getElementById('container'));
+
+	</script>
+</body>
+</html>

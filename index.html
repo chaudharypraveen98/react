@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>React</title>
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="first"></div>
+	<script type="text/babel">
+	//The entire document is made up of containers which will return the html chunk
+	//Start of a component 
+	//Every single component can display a single parent tag 
+
+		//single component with single parent tag
+
+		var Bacon = React.createClass({
+		render: function(){
+			return(<h1>it is a single parent tag</h1>);
+			}
+		});
+
+		//single component with multiple tags inside parent tag as multiple tags are not allowed
+
+		var Vacon = React.createClass({
+		render: function(){
+			return(<div>
+				<h1>Hello World</h1>
+				<p>we are here to improve the world</p>
+			</div>);
+			}
+		});
+		ReactDOM.render(<div>
+			<Vacon />
+			<Vacon />
+			<Vacon />
+		</div>,document.getElementById('first'));
+	</script>
+
+</body>
+</html>

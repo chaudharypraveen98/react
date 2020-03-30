@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+
+	<div id="container"></div>
+	<script type="text/babel">
+	class Comment extends React.Component{
+		// React invokes constructor() with the component's props and context.
+		//It's important to call super() whenever we define a constructor() function. Furthermore, it's good practice to call it on the first line.
+		//When you call the super() method, it calls the constructor of the parent class which in the case of a React component is React.Component.
+		//the event handler method loses its implicitly bound context. When the event occurs and the handler is invoked, the this value falls back to default binding and is set to undefined , as class declarations and prototype methods run in strict mode.
+		//When we bind the this of the event handler to the component instance in the constructor, we can pass it as a callback without worrying about it losing its context.
+		//we use bind function here because the es6 classes doesn't bind the classes automatically.we have define that part in the constructor.
+		//Any time we define our own custom component methods for an ES6 class component, we have to manually bind this to the component ourselves
+		constructor(props){
+			super(props);
+			this.state={
+				editing:false
+			};
+		}
+		edit=()=>{
+			console.log("editing is on");
+			this.setState({editing:true});
+		}
+		remove=()=>{
+			console.log("removing");
+			this.props.deletefromboard(this.props.index);
+		}
+		save=()=>{
+			console.log("the text is "+this.refs.newText.value);
+			this.props.updateCommentText(this.refs.newText.value,this.props.index);
+			this.setState({editing:false});
+		}
+		renderNormal(){
+			return(
+				<div className="commentContainer">
+					<div className="commentText">{this.props.children}</div>
+					<button className="button-primary" onClick={this.edit}>Edit</button>
+					<button className="button-success" onClick={this.remove}>Remove</button>
+				</div>
+			);
+		}
+		renderEdit(){
+			return(
+				<div className="commentContainer">
+					<textarea defaultValue={this.props.children} ref="newText"></textarea>
+					<button className="button-info" onClick={this.save}>Save</button>
+				</div>
+			);
+		}
+		render(){
+			if (this.state.editing) {
+				return this.renderEdit()
+			}else {
+				return this.renderNormal()
+			}
+		}
+	}
+	class Board extends React.Component{
+		constructor(props){
+			super(props);
+			this.state={
+				comments:[]
+			}
+		}
+		updateComment=(newText,i)=>{
+			console.log("updating comment");
+			var arr=this.state.comments;
+			arr[i]=newText;
+			this.setState({comments:arr});
+		}
+		removeComment=(i)=>{
+			console.log("removing "+i);
+			var arr=this.state.comments;
+			arr.splice(i,1);
+			this.setState({comments:arr});
+		}
+		eachComment=(text,i)=>{
+			return(
+				<Comment key={i} index={i} deletefromboard={this.removeComment} updateCommentText={this.updateComment}>
+					{text}
+				</Comment>
+			)
+		}
+		add=(text)=>{
+			console.log("add successful");
+			var arr= this.state.comments;
+			arr.push(text);
+			this.setState({comments:arr});
+		}
+		render(){
+			//map function takes array with provided function
+			//we need to bind this whenever we pass parameter to the function
+			return(<div>
+				<button className="button-info create" onClick={this.add.bind(null,"default text")}>Add a new</button>
+				<div className="board">						
+						{this.state.comments.map(this.eachComment)}
+				</div>
+				</div>
+			)
+		}
+	}
+	ReactDOM.render(<Board />,document.getElementById('container'));
+	</script>
+</body>
+</html>

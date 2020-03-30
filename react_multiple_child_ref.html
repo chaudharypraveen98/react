@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>react</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://fb.me/react-0.14.3.js"></script>
+	<script src="https://fb.me/react-dom-0.14.3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/babel">
+
+	var Comment = React.createClass({
+		//In html we dont use round brackets in user defined function
+		//when the parent has some information and the child want to share then it can we done with the help of props function . prop function allows us to share data and function as well and this known as passing function as prop.
+		//whenever we want to update the context(array of data), then first we make a new array variable,store the value of context in it and then update it and finally make context equals to array variable similar is with remove.
+		//Bind creates a new function that will have this set to the first parameter passed to bind().
+		//You can also add extra parameters after the 1st (this) parameter and bind will pass in those values to the original function. Any additional parameters you later pass to the bound function will be passed in after the bound parameters:
+		getInitialState: function(){
+			return {editing:false}
+		},
+		edit: function(){
+			this.setState({editing:true})
+		},
+		remove: function(){
+			alert('removing the value ');
+			this.props.deletefromboard(this.props.index);
+		},
+		save: function(){
+			var val= this.refs.newText.value;
+			console.log('new comment is '+val);
+			this.props.updateCommentText(this.refs.newText.value,this.props.index);
+			this.setState({editing:false});
+		},
+		renderNormal: function() {
+			return (<div className="commentContainer">
+					<div className="commentText">{this.props.children}</div>
+					<button className="button-primary" onClick={this.edit}>edit</button>
+					<button className="button-danger" onClick={this.remove}>remove</button>
+				</div>
+			);
+		},
+		renderEdit: function() {
+			return (<div className="commentContainer">
+					<textarea ref="newText" defaultValue={this.props.children}></textarea>
+					<button className="button-success" onClick={this.save}>save</button>
+				</div>
+			);
+		},
+		render: function() {
+			if (this.state.editing) {
+				return this.renderEdit()
+			}else {
+				return this.renderNormal()
+			}
+		}
+	});
+	var Board = React.createClass({
+		getInitialState: function(){
+			return {
+				comments:[]
+			}
+		},
+		updateComment: function(newText,i){
+			console.log("updating comment");
+			var arr=this.state.comments;
+			arr[i]=newText;
+			this.setState({comments:arr});
+		},
+		removeComment: function(i){
+			console.log("removing "+i);
+			var arr=this.state.comments;
+			arr.splice(i,1);
+			this.setState({comments:arr});
+		},
+		eachComment: function(text,i){
+			return(
+				<Comment key={i} index={i} deletefromboard={this.removeComment} updateCommentText={this.updateComment}>
+					{text}
+				</Comment>
+			);
+			//a key is something which uniquely identifies a child. it can be done by id.
+		},
+		add: function(text){
+			var arr= this.state.comments;
+			arr.push(text);
+			this.setState({comments:arr});
+		},
+		render: function(){
+			////map function takes array with provided function
+			//we need to bind this whenever we pass parameter to the function
+			return(<div>
+				<button className="button-info create" onClick={this.add.bind(null,"default text")}>Add a new</button>
+				<div className="board">						
+						{this.state.comments.map(this.eachComment)}
+				</div>
+				</div>
+			);
+		}
+	});
+	ReactDOM.render(<Board />,document.getElementById('container'));
+	</script>
+</body>
+</html>
